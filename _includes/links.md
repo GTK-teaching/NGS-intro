@@ -10,8 +10,8 @@
 [cran-knitr]: https://cran.r-project.org/package=knitr
 [cran-stringr]: https://cran.r-project.org/package=stringr
 [dc-lessons]: http://www.datacarpentry.org/lessons/
-[email]: mailto:team@carpentries.org
-[github-importer]: https://import.github.com/
+[email]: mailto:dbsgtk@nus.edu.sg
+ [github-importer]: https://import.github.com/
 [importer]: https://github.com/new/import
 [jekyll-collection]: https://jekyllrb.com/docs/collections/
 [jekyll-install]: https://jekyllrb.com/docs/installation/
