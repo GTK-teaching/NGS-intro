@@ -39,8 +39,11 @@ opts_chunk$set(tidy = FALSE, results = "markup", comment = NA,
 hook_in <- function(x, options) {
   stringr::str_c("\n\n~~~\n",
                  paste0(x, collapse="\n"),
-                 "\n~~~\n{: .language-r}\n\n")
+                 "\n~~~\n{: .language-",
+                 tolower(options$engine),
+                 "}\n\n")
 }
+
 
 hook_out <- function(x, options) {
   x <- gsub("\n$", "", x)
