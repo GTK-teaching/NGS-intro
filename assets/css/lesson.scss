@@ -10,6 +10,7 @@
 
 $nus-blue:          #003d7c !default;
 $nus-orange:        #ef7c00 !default;
+$nus-mix:              desaturate(lighten(mix($nus-blue,$nus-orange,30%),40%),100%);
 $color-brand:       $nus-blue !default;
 
 
@@ -19,6 +20,7 @@ $color-output:      #303030 !default;
 $color-source:      #6e5494 !default;
 
 // blockquotes
+$color-warning:     lighten($color-error,40%);
 $color-callout:     #f4fd9c !default;
 $color-challenge:   #eec275 !default;
 $color-checklist:   #dfd2a0 !default;
@@ -26,7 +28,7 @@ $color-discussion:  #eec275 !default;
 
 $color-keypoints:   $nus-orange !default;
 $color-objectives:  lighten(desaturate($nus-blue,50%),50%); 
-$color-prereq:      lighten($nus-orange,10%) !default;
+$color-prereq:      $nus-mix !default;
 $color-solution:    #ded4b9 !default;
 $color-testimonial: #fc8dc1 !default;
 
@@ -41,7 +43,8 @@ $color-testimonial: #fc8dc1 !default;
     border-radius: 4px 0 0 4px;
 }
 
-.error  { @include cdSetup($color-error); }
+ .warning  { @include cdSetup(darken($color-error,10%)); }
+ .error  { @include cdSetup($color-error); }
 .output { @include cdSetup($color-output); }
 .source { @include cdSetup($color-source); }
 
@@ -113,6 +116,7 @@ $codeblock-padding: 5px !default;
 
 }
 
+.warning{ @include bkSetup($color-warning, "\e107"); }
 .callout{ @include bkSetup($color-callout, "\e146"); }
 .challenge{ @include bkSetup($color-challenge, "\270f"); }
 .checklist{ @include bkSetup($color-checklist, "\e067"); }
@@ -120,6 +124,8 @@ $codeblock-padding: 5px !default;
 .keypoints{ @include bkSetup($color-keypoints, "\e101"); }
 .objectives{ @include bkSetup($color-objectives, "\e085"); }
 .prereq{ @include bkSetup($color-prereq, "\e124"); }
+.prereq{ @include bkSetup($color-prereq, "\e032"); }
+
 .solution{ @include bkSetup($color-solution, "\e105"); }
 .testimonial{ @include bkSetup($color-testimonial, "\e143"); }
 
