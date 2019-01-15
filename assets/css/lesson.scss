@@ -21,7 +21,7 @@ $color-source:      #6e5494 !default;
 
 // blockquotes
 $color-warning:     lighten($color-error,40%);
-$color-callout:     #f4fd9c !default;
+$color-callout:     lighten($nus-orange,20%) !default;
 $color-challenge:   #eec275 !default;
 $color-checklist:   #dfd2a0 !default;
 $color-discussion:  #eec275 !default;
@@ -82,15 +82,15 @@ $codeblock-padding: 5px !default;
 @mixin bkSetup($color, $glyph) {
 
   $gradientcolor1: $color;
-  $gradientcolor2: scale-color($color, $lightness: 10%);
+  $gradientcolor2: scale-color($color, $lightness: 100%);
 
   padding-left: $codeblock-padding;
   padding-top: 0;
   padding-bottom: 0;
   padding-right: 0;
   border: 1px solid;
-  border-color: $color;
-  border-radius: 4px;
+  border-color: darken($color,30%);
+  border-radius: p0x;
   padding-bottom: $codeblock-padding;
 
   margin: 15px 0;
@@ -99,6 +99,7 @@ $codeblock-padding: 5px !default;
     padding-top: $codeblock-padding;
     padding-bottom: $codeblock-padding;
     font-size: 20px;
+    border: 0px solid;
     background: linear-gradient(to bottom, $gradientcolor1, $gradientcolor2);
     border-color: $color;
     margin-top: 0px;
@@ -309,4 +310,12 @@ kbd {
     box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #FFF inset;
     white-space: nowrap;
     font-style: normal;
+}
+
+.sansserif {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.monospace {
+  font-family: Lucida Console, Courier, monospace;
 }
