@@ -10,7 +10,7 @@
 
 $nus-blue:          #003d7c !default;
 $nus-orange:        #ef7c00 !default;
-$nus-mix:              desaturate(lighten(mix($nus-blue,$nus-orange,30%),40%),100%);
+$nus-mix:           desaturate(lighten(mix($nus-blue,$nus-orange,30%),40%),100%);
 $color-brand:       $nus-blue !default;
 
 
@@ -43,8 +43,8 @@ $color-testimonial: #fc8dc1 !default;
     border-radius: 4px 0 0 4px;
 }
 
- .warning  { @include cdSetup(darken($color-error,10%)); }
- .error  { @include cdSetup($color-error); }
+.warning  { @include cdSetup(darken($color-error,10%)); }
+.error  { @include cdSetup($color-error); }
 .output { @include cdSetup($color-output); }
 .source { @include cdSetup($color-source); }
 
@@ -98,6 +98,7 @@ $codeblock-padding: 5px !default;
   h2 {
     padding-top: $codeblock-padding;
     padding-bottom: $codeblock-padding;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
     border: 0px solid;
     background: linear-gradient(to bottom, $gradientcolor1, $gradientcolor2);
@@ -178,8 +179,12 @@ article h3 { margin: 40px 0 16px; }
 
 .figures h2 { margin-top: 100px; }
 
-.maintitle {
-  text-align: center;
+.title, .maintitle {
+    text-align: center;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 700;
+    color: $nus-blue;
+
 }
 
 .footertext {
@@ -312,10 +317,13 @@ kbd {
     font-style: normal;
 }
 
-.sansserif {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+
 
 .monospace {
   font-family: Lucida Console, Courier, monospace;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+
 }
