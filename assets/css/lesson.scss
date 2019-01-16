@@ -107,29 +107,30 @@ $codeblock-padding: 5px !default;
     margin-left: -$codeblock-padding; // to move back to the left margin of the enclosing blockquote
   }
   h2:before {
-    font-family: 'Glyphicons Halflings';
+//    font-family: 'Glyphicons Halflings';
+    font-family: FontAwesome;
     content: $glyph;
     float: left;
     padding-left: $codeblock-padding;
     padding-right: $codeblock-padding;
     display: inline-block;
-    -webkit-font-smoothing: antialiased;
+    //    -webkit-font-smoothing: antialiased;
   }
 
 }
 
-.warning{ @include bkSetup($color-warning, "\e107"); }
-.callout{ @include bkSetup($color-callout, "\e146"); }
-.challenge{ @include bkSetup($color-challenge, "\270f"); }
-.checklist{ @include bkSetup($color-checklist, "\e067"); }
-.discussion{ @include bkSetup($color-discussion, "\e123"); }
-.keypoints{ @include bkSetup($color-keypoints, "\e101"); }
-.objectives{ @include bkSetup($color-objectives, "\e085"); }
-.prereq{ @include bkSetup($color-prereq, "\e124"); }
-.prereq{ @include bkSetup($color-prereq, "\e032"); }
+.warning{ @include bkSetup($color-warning, "\f071"); }
+.callout{ @include bkSetup($color-callout, "\f08d"); }
+.challenge{ @include bkSetup($color-challenge, "\f044"); }
+.checklist{ @include bkSetup($color-checklist, "\f14a"); }
+.discussion{ @include bkSetup($color-discussion, "\f086"); }
+.keypoints{ @include bkSetup($color-keypoints, "\f084"); }
+.objectives{ @include bkSetup($color-objectives, "\f140"); }
+.prereq{ @include bkSetup($color-prereq, "\f022"); }
+//.prereq{ @include bkSetup($color-prereq, "\e032"); }
 
-.solution{ @include bkSetup($color-solution, "\e105"); }
-.testimonial{ @include bkSetup($color-testimonial, "\e143"); }
+.solution{ @include bkSetup($color-solution, "\f06e"); }
+.testimonial{ @include bkSetup($color-testimonial, "\f004"); }
 
 .callout h3,
 .challenge h3,
@@ -304,7 +305,7 @@ kbd {
     display: inline-block;
     margin: 0 .1em;
     padding: .1em .6em;
-    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    font-family: "Roboto", Arial,"Helvetica Neue",Helvetica,sans-serif;
     font-size: 11px;
     line-height: 1.4;
     color: #242729;
@@ -324,6 +325,6 @@ kbd {
 }
 
 body {
+    font-size: 12pt;
     font-family: "Roboto", sans-serif;
-
 }
