@@ -12,6 +12,7 @@ $nus-blue:          #003d7c !default;
 $nus-orange:        #ef7c00 !default;
 $nus-mix:           desaturate(lighten(mix($nus-blue,$nus-orange,30%),40%),100%);
 $color-brand:       $nus-blue !default;
+$color-system:      $nus-mix !default; 
 
 
 // code boxes
@@ -121,9 +122,9 @@ $codeblock-padding: 5px !default;
 
 }
 
-.warning{ @include bkSetup($color-warning, "\f071"); }
-
-.idea{ @include bkSetup($color-idea, "\f0eb"); }
+.warning, blockquote .warning{ @include bkSetup($color-warning, "\f071"); }
+.idea, blockquote .idea{ @include bkSetup($color-idea, "\f0eb"); }
+.system, blockquote .system { @include bkSetup($color-system, "\f108"); }
 .callout{ @include bkSetup($color-callout, "\f08d"); }
 .challenge{ @include bkSetup($color-challenge, "\f044"); }
 .checklist{ @include bkSetup($color-checklist, "\f14a"); }
