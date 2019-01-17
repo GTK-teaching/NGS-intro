@@ -62,6 +62,7 @@ KNOWN_BLOCKQUOTES = {
     'challenge',
     'checklist',
     'discussion',
+    'idea',
     'keypoints',
     'overview',
     'prereq',
