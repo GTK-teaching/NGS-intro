@@ -27,7 +27,7 @@ $color-checklist:   #dfd2a0 !default;
 $color-discussion:  #eec275 !default;
 
 $color-keypoints:   $nus-orange !default;
-$color-objectives:  lighten(desaturate($nus-blue,50%),50%); 
+$color-overview:  lighten(desaturate($nus-blue,50%),50%); 
 $color-prereq:      $nus-mix !default;
 $color-solution:    #ded4b9 !default;
 $color-testimonial: #fc8dc1 !default;
@@ -125,9 +125,8 @@ $codeblock-padding: 5px !default;
 .checklist{ @include bkSetup($color-checklist, "\f14a"); }
 .discussion{ @include bkSetup($color-discussion, "\f086"); }
 .keypoints{ @include bkSetup($color-keypoints, "\f084"); }
-.objectives{ @include bkSetup($color-objectives, "\f140"); }
+.overview{ @include bkSetup($color-overview, "\f279"); }
 .prereq{ @include bkSetup($color-prereq, "\f022"); }
-//.prereq{ @include bkSetup($color-prereq, "\e032"); }
 
 .solution{ @include bkSetup($color-solution, "\f06e"); }
 .testimonial{ @include bkSetup($color-testimonial, "\f004"); }
@@ -137,7 +136,7 @@ $codeblock-padding: 5px !default;
 .checklist h3,
 .discussion h3,
 .keypoints h3,
-.objectives h3,
+.overview h3,
 .prereq h3,
 .solution h3,
 .testimonial h3 {

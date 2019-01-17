@@ -63,11 +63,12 @@ KNOWN_BLOCKQUOTES = {
     'checklist',
     'discussion',
     'keypoints',
-    'objectives',
+    'overview',
     'prereq',
     'quotation',
     'solution',
-    'testimonial'
+    'testimonial',
+    'warning'
 }
 
 # What kinds of code fragments are allowed?
