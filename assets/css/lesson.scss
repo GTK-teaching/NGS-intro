@@ -125,6 +125,9 @@ $codeblock-padding: 5px !default;
 .warning, blockquote .warning{ @include bkSetup($color-warning, "\f071"); }
 .idea, blockquote .idea{ @include bkSetup($color-idea, "\f0eb"); }
 .system, blockquote .system { @include bkSetup($color-system, "\f108"); }
+.linux, blockquote .linux { @include bkSetup($color-system, "\f17c"); }
+.osx, blockquote .osx { @include bkSetup($color-system, "\f179"); }
+.windows, blockquote .windows { @include bkSetup($color-system, "\f17a"); }
 .callout{ @include bkSetup($color-callout, "\f08d"); }
 .challenge{ @include bkSetup($color-challenge, "\f044"); }
 .checklist{ @include bkSetup($color-checklist, "\f14a"); }
