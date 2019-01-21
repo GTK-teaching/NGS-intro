@@ -80,9 +80,9 @@ $color-testimonial: #fc8dc1 !default;
 // Specialized blockquote environments for learning objectives, callouts, etc.
 //----------------------------------------
 
-$codeblock-padding: 5px !default;
+$codeblock-padding: 6px !default;
 
-@mixin bkSetup($color, $glyph) {
+@mixin bkSetup($color, $glyph, $weight: 900) {
 
   $gradientcolor1: $color;
   $gradientcolor2: scale-color($color, $lightness: 100%);
@@ -110,10 +110,11 @@ $codeblock-padding: 5px !default;
     margin-left: -$codeblock-padding; // to move back to the left margin of the enclosing blockquote
   }
   h2:before {
-//    font-family: 'Glyphicons Halflings';
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
     content: $glyph;
     float: left;
+    color: darken($color,50%);
+    font-weight: $weight;
     padding-left: $codeblock-padding;
     padding-right: $codeblock-padding;
     display: inline-block;
@@ -123,17 +124,18 @@ $codeblock-padding: 5px !default;
 }
 
 .warning, blockquote .warning{ @include bkSetup($color-warning, "\f071"); }
-.idea, blockquote .idea{ @include bkSetup($color-idea, "\f0eb"); }
+.idea, blockquote .idea{ @include bkSetup($color-idea, "\f0eb",$weight: 900); }
 .system, blockquote .system { @include bkSetup($color-system, "\f108"); }
 .linux, blockquote .linux { @include bkSetup($color-system, "\f17c"); }
 .osx, blockquote .osx { @include bkSetup($color-system, "\f179"); }
-.windows, blockquote .windows { @include bkSetup($color-system, "\f17a"); }
+.windows, blockquote .windows { @include bkSetup($color-system, "\f17a",$weight: 500); }
 .callout{ @include bkSetup($color-callout, "\f08d"); }
 .challenge{ @include bkSetup($color-challenge, "\f044"); }
 .checklist{ @include bkSetup($color-checklist, "\f14a"); }
 .discussion{ @include bkSetup($color-discussion, "\f086"); }
 .keypoints{ @include bkSetup($color-keypoints, "\f084"); }
 .overview{ @include bkSetup($color-overview, "\f279"); }
+
 .prereq{ @include bkSetup($color-prereq, "\f022"); }
 
 .solution{ @include bkSetup($color-solution, "\f06e"); }
