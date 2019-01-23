@@ -50,13 +50,14 @@
         {% if episode.break %}
           Break
         {% else %}
-          {% if episode.objectives %}
-            {% for objective in episode.objectives %}
-              {{objective|markdownify|strip_html}}
+        {% if episode.objectives %}
+        <ul style="margin:0;padding:0">
+        {% for objective in episode.objectives %}
+        <li style="margin:0;padding:0">{{objective|markdownify|strip_html}}</li>
               {% unless forloop.last %}
-              <br/>
               {% endunless %}
-            {% endfor %}
+              {% endfor %}
+              </ul>
           {% endif %}
         {% endif %}
       </td>
