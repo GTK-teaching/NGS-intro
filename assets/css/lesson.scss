@@ -23,7 +23,7 @@ $color-source:      #6e5494 !default;
 // blockquotes
 $color-warning:     lighten($color-error,40%);
 $color-callout:     lighten($nus-orange,20%) !default;
-$color-challenge:   #eec275 !default;
+$color-challenge:   #32cd32 !default;
 $color-checklist:   #dfd2a0 !default;
 $color-discussion:  #eec275 !default;
 $color-idea:        $nus-orange !default; 
@@ -130,7 +130,7 @@ $codeblock-padding: 6px !default;
 .osx, blockquote .osx { @include bkSetup($color-system, "\f179"); }
 .windows, blockquote .windows { @include bkSetup($color-system, "\f17a",$weight: 500); }
 .callout{ @include bkSetup($color-callout, "\f08d"); }
-.challenge{ @include bkSetup($color-challenge, "\f044"); }
+.challenge{ @include bkSetup($color-challenge, "\f44b"); }
 .checklist{ @include bkSetup($color-checklist, "\f14a"); }
 .discussion{ @include bkSetup($color-discussion, "\f086"); }
 .keypoints{ @include bkSetup($color-keypoints, "\f084"); }
