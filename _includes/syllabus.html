@@ -23,8 +23,11 @@
     <th class="col-md-7">Learning Objectives</th>
   </tr>
   <tr>
-    {% if multiday %}<td class="col-md-1"></td>{% endif %}
-    <td class="{% if multiday %}col-md-1{% else %}col-md-2{% endif %}">Before start</td>
+    {% if multiday %}
+     <td class="col-md-2" colspan="2">Before start</td>
+    {% else %}  
+    <td class="col-md-2">Before start</td>
+    {% endif %}
     <td class="col-md-3"><a href="{{ relative_root_path }}{% link setup.md %}">Setup</a></td>
     <td class="col-md-7">{{ site.setup_message }}</td>
   </tr>

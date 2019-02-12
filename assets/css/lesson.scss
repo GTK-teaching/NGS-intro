@@ -26,7 +26,8 @@ $color-callout:     lighten($nus-orange,20%) !default;
 $color-challenge:   #32cd32 !default;
 $color-checklist:   #dfd2a0 !default;
 $color-discussion:  #eec275 !default;
-$color-idea:        $nus-orange !default; 
+$color-idea:        #ffff00; // $nus-orange !default; 
+$color-question:        #eeeeee; // $nus-orange !default; 
 
 $color-keypoints:   $nus-orange !default;
 $color-overview:  lighten(desaturate($nus-blue,50%),50%); 
@@ -47,6 +48,7 @@ $color-testimonial: #fc8dc1 !default;
 
 .warning  { @include cdSetup(darken($color-error,10%)); }
 .idea  { @include cdSetup($nus-blue,); }
+.question  { @include cdSetup($nus-blue,); }
 .error  { @include cdSetup($color-error); }
 .output { @include cdSetup($color-output); }
 .source { @include cdSetup($color-source); }
@@ -113,7 +115,6 @@ $codeblock-padding: 6px !default;
     font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands";
     content: $glyph;
     float: left;
-    color: darken($color,50%);
     font-weight: $weight;
     padding-left: $codeblock-padding;
     padding-right: $codeblock-padding;
@@ -123,20 +124,29 @@ $codeblock-padding: 6px !default;
 
 }
 
+h3 {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+
+} 
+
 .warning, blockquote .warning{ @include bkSetup($color-warning, "\f071"); }
 .idea, blockquote .idea{ @include bkSetup($color-idea, "\f0eb",$weight: 900); }
+
+.question, blockquote .question{ @include bkSetup($color-question, "\f059",$weight: 900); }
 .system, blockquote .system { @include bkSetup($color-system, "\f108"); }
 .linux, blockquote .linux { @include bkSetup($color-system, "\f17c"); }
 .osx, blockquote .osx { @include bkSetup($color-system, "\f179"); }
 .windows, blockquote .windows { @include bkSetup($color-system, "\f17a",$weight: 500); }
 .callout{ @include bkSetup($color-callout, "\f08d"); }
 .challenge{ @include bkSetup($color-challenge, "\f44b"); }
-.checklist{ @include bkSetup($color-checklist, "\f14a"); }
+//.checklist{ @include bkSetup($color-checklist, "\f14a"); }
+.checklist{ @include bkSetup($color-checklist, "\f03a"); }
 .discussion{ @include bkSetup($color-discussion, "\f086"); }
 .keypoints{ @include bkSetup($color-keypoints, "\f084"); }
 .overview{ @include bkSetup($color-overview, "\f279"); }
 
-.prereq{ @include bkSetup($color-prereq, "\f022"); }
+.prereq{ @include bkSetup($color-prereq, "\f4fc"); }
 
 .solution{ @include bkSetup($color-solution, "\f06e"); }
 .testimonial{ @include bkSetup($color-testimonial, "\f004"); }
