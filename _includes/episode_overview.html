@@ -6,9 +6,9 @@
 
   <div class="row">
     <div class="col-md-2">
-      <strong>Teaching:</strong> {{ page.teaching }} min
+      <strong>Teaching:</strong> {% if page.teaching == null %} 0 {% else %} {{ page.teaching }} {% endif %} min
       <br/>
-      <strong>Exercises:</strong> {{ page.exercises }} min
+      <strong>Exercises:</strong> {% if page.exercises == null %} 0 {% else %} {{ page.exercises }} {% endif %} min
     </div>
     
   <div class="col-md-9">
