@@ -586,12 +586,12 @@ us whether this sample passed, failed, or is borderline (`WARN`). Remember to qu
 
 We can make a record of the results we obtained for all our samples
 by concatenating all of our `summary.txt` files into a single file 
-using the `cat` command. We'll call this `full_report.txt` and move it to a new directory called `docs`:
+using the `cat` command. We'll call this `fastq_summaries.txt` and move it to a new directory called `docs`:
 
 ~~~
 cd ..
 mkdir docs
-cat results/*/summary.txt > docs/summary.txt
+cat results/*/summary.txt > docs/fastq_summaries.txt
 ~~~
 {: .language-bash}
 
@@ -606,7 +606,7 @@ cat results/*/summary.txt > docs/summary.txt
 > >
 > > 
 > > ~~~
-> > grep FAIL docs/summary.txt
+> > grep FAIL docs/fastq_summaries.txt
 > > ~~~
 > > {: .language-bash}
 > > 

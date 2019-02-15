@@ -1,0 +1,317 @@
+---
+title: "Automating a variant calling workflow"
+teaching: 30
+source: Rmd
+exercises: 15
+questions:
+- "How can I make my workflow more efficient and less error-prone?"
+objectives:
+- "Write a shell script with multiple variables."
+- "Incorporate a `for` loop into a shell script."
+keypoints:
+- "We can combine multiple commands into a shell script to automate a workflow."
+- "Use `echo` statements within your scripts to get an automated progress update."
+---
+# What is a shell script?
+
+You wrote a simple shell script in a previous lesson that we used to extract reads from a FASTQ files and put them into a new file. 
+
+Here's the script you wrote:
+
+~~~
+grep -B1 -A2 NNNNNNNNNN *.fastq > scripted_bad_reads.txt
+
+echo "Script finished!"
+~~~
+{: .language-bash}
+
+That script was only two lines long, but shell scripts can be much more complicated
+than that and can be used to perform a large number of operations on one or many 
+files. This saves you the effort of having to type each of those commands over for
+each of your data files and makes your work less error-prone and more reproducible. 
+For example, the variant calling workflow we just carried out had about eight steps
+where we had to type a command into our terminal. Most of these commands were pretty 
+long. If we wanted to do this for all six of our data files, that would be forty-eight
+steps. If we had 50 samples (a more realistic number), it would be 400 steps! You can
+see why we want to automate this.
+
+We've also used `for` loops in previous lessons to iterate one or two commands over multiple input
+files. In these `for` loops, the filename was defined as a variable in the `for` statement, which
+enabled you to run the loop on multiple files. We will be using variable assignments like this in
+our new shell scripts.
+
+Here's the `for` loop you wrote for unzipping `.zip` files: 
+
+~~~
+$ for filename in *.zip
+> do
+> unzip $filename
+> done
+~~~
+{: .language-bash}
+
+And here's the one you wrote for running Trimmomatic on all of our `.fastq` sample files.
+
+~~~
+for file in ls data/*_1.fastq.gz;
+do
+    SRR=$(basename $file _1.fastq.gz)
+    echo working on $SRR
+    TrimmomaticPE data/${SRR}_1.fastq.gz data/${SRR}_2.fastq.gz \
+                  results/trimmed/${SRR}_1.trim.fastq.gz results/orphaned/${SRR}_1.untrim.fastq.gz \
+                  results/trimmed/${SRR}_2.trim.fastq.gz results/orphaned/${SRR}_2.untrim.fastq.gz \
+                  SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15 
+done
+~~~
+{: .language-bash}
+
+Notice that in this `for` loop, we used two variables, `file`, which was defined in the `for` statement, and `SRR`, which was created from the filename during each iteration of the loop.
+
+> ## Creating Variables
+> Within the Bash shell you can create variables at any time (as we did
+> above, and during the 'for' loop lesson). Assign any name and the
+> value using the assignment operator: '='. You can check the current
+> definition of your variable by typing into your script: echo $variable_name.
+{: .callout}
+
+In this lesson, we'll use two shell scripts to automate the variant calling analysis: one for FastQC analysis (including creating our summary file), and a second for the remaining variant calling. To write a script to run our FastQC analysis, we'll take each of the commands we entered to run FastQC and process the output files and put them into a single file with a `.sh` extension. The `.sh` is not essential, but serves as a reminder to ourselves and to the computer that this is a shell script.
+
+# Analyzing Quality with FastQC
+
+We will use the command `touch` to create a new file where we will write our shell script. We will create this script in a new
+directory called `src/`. Previously, we used
+`nano` to create and open a new file. The command `touch` allows us to create a new file without opening that file.
+
+~~~
+mkdir -p src
+cd src
+touch read_qc.sh
+ls 
+~~~
+{: .language-bash}
+
+~~~
+read_qc.sh
+~~~
+{: .output}
+
+We now have an empty file called `read_qc.sh` in our `scripts/` directory. We will now open this file in `nano` and start
+building our script.
+
+~~~
+$ nano read_qc.sh
+~~~
+{: .language-bash}
+
+**Enter the following pieces of code into your shell script (not into your terminal prompt).**
+
+Our first line will ensure that our script will exit if an error occurs, and is a good idea to include at the beginning of your scripts. The second line will move us into the `results/orphaned/` directory when we run our script.
+
+~~~
+set -e
+cd ../results/orphaned
+~~~
+{: .output}
+
+These next two lines will give us a status message to tell us that we are currently running FastQC, then will run FastQC
+on all of the files in our current directory with a `.fastq` extension. 
+
+~~~
+echo "Running FastQC ..."
+~/FastQC/fastqc *.fastq.gz
+~~~
+{: .output}
+
+Our next line will create a new directory to hold our FastQC output files. Here we are using the `-p` option for `mkdir`. This 
+option allows `mkdir` to create the new directory, even if one of the parent directories doesn't already exist. It also supresses
+errors if the directory already exists, without overwriting that directory. It is a good idea to use this option in your shell 
+scripts to avoid running into errors if you don't have the directory structure you think you do.
+
+~~~
+mkdir -p results/orphaned/fastqc
+~~~
+{: .output}
+
+Our next three lines first give us a status message to tell us we are saving the results from FastQC, then moves all of the files
+with a `.zip` or a `.html` extension to the directory we just created for storing our FastQC results. 
+
+~~~
+echo "Saving FastQC results..."
+mv *.zip results/orphaned/fastqc
+mv *.html results/orphaned/fastqc
+~~~
+{: .output}
+
+The next line moves us to the results directory where we've stored our output.
+
+~~~
+cd results/orphaned/fastqc
+~~~
+{: .output}
+
+The next five lines should look very familiar. First we give ourselves a status message to tell us that we're unzipping our ZIP
+files. Then we run our for loop to unzip all of the `.zip` files in this directory.
+
+~~~
+echo "Unzipping..."
+for filename in *.zip
+    do
+    unzip $filename
+    done
+~~~
+{: .output}
+
+Next we concatenate all of our summary files into a single output file, with a status message to remind ourselves that this is 
+what we're doing.
+
+~~~
+echo "Saving summary..."
+cat */summary.txt > ../docs/fastqc_summaries.txt
+~~~
+{: .output}
+
+> ## Using `echo` statements
+> 
+> We've used `echo` statements to add progress statements to our script. Our script will print these statements
+> as it is running and therefore we will be able to see how far our script has progressed.
+>
+{: .callout}
+
+Your full shell script should now look like this:
+
+```{bash, eval=FALSE}
+set -e
+
+topdir=$(pwd)
+cd results/orphaned/
+mkdir -p fastqc
+
+
+echo "Running FastQC ..."
+fastqc *.fastq.gz -o fastqc
+
+cd fastqc
+
+echo "Unzipping..."
+for filename in *.zip
+    do
+    unzip $filename
+    done
+
+echo "Saving summary..."
+cat */summary.txt > ${topdir}/docs/fastqc-orphaned-summaries.txt
+```
+
+Save your file and exit `nano`. We can now run our script:
+
+~~~
+$ bash read_qc.sh
+~~~
+{: .language-bash}
+
+~~~
+Running FastQC ...
+Started analysis of SRR2584866.fastq
+Approx 5% complete for SRR2584866.fastq
+Approx 10% complete for SRR2584866.fastq
+Approx 15% complete for SRR2584866.fastq
+Approx 20% complete for SRR2584866.fastq
+Approx 25% complete for SRR2584866.fastq
+. 
+. 
+. 
+~~~
+{: .output}
+
+For each of your sample files, FastQC will ask if you want to replace the existing version with a new version. This is 
+because we have already run FastQC on this samples files and generated all of the outputs. We are now doing this again using
+our scripts. Go ahead and select `A` each time this message appears. It will appear once per sample file (six times total).
+
+# Automating the Rest of our Variant Calling Workflow
+
+We can extend these principles to the entire variant calling workflow. To do this, we will take all of the individual commands that we wrote before, put them into a single file, add variables so that the script knows to iterate through our input files and write to the appropriate output files. This is very similar to what we did with our `read_qc.sh` script, but will be a bit more complex.
+
+
+Let's look go through this script together:
+
+The script should look like this:
+
+~~~
+set -e
+
+
+SCRIPT_DIR=$(dirname $(realpath $0))
+BASE_DIR=$(dirname $SCRIPT_DIR)
+
+cd ${BASE_DIR}
+
+echo working in $(pwd)
+
+genome=data/genome/ecoli_rel606.fasta
+
+export BOWTIE2_INDEXES=$(BASE_DIR}/data/genome
+
+echo "building the index of Ec606"
+
+echo bowtie2-build $genome data/genome/Ec606
+
+mkdir -p sam bam bcf vcf
+
+for fq1 in results/trimmed/*_1.trim.fastq.gz
+     do
+         SRR=$(basename $fq1 _1.trim.fastq.gz)
+         echo "working with $SRR"
+         fq1=results/trimmed/${SRR}_1.trim.fastq.gz
+         fq2=results/trimmed/${SRR}_1.trim.fastq.gz
+         sam=results/sam/${SRR}.sam
+         bam=results/bam/${SRR}.bam
+         sorted_bam=results/bam/${SRR}-sorted.sam
+         raw_bcf=results/bcf/${SRR}_raw.bcf
+         variants=results/vcf/${SRR}_variants.vcf
+         final_variants=results/vcf/${SRR}_final_variants.vcf
+         bowtie2 -x Ec606 --very-fast -p 4 -1 ${fq1} -2 ${fq2} -S ${sam}
+          samtools view -S -b ${sam} > $bam
+          samtools sort -o ${sorted_bam} $bam
+          samtools index ${sorted_bam}
+          bcftools mpileup -O b -o $raw_bcf -f $genome $sorted_bam
+          bcftools call --ploidy 1 -m -v -o $variants $raw_bcf 
+          vcfutils.pl varFilter $variants > $final_variants
+done
+~~~
+{: .output}
+
+Now we can run our script:
+
+~~~
+$ bash src/run_variant_calling.sh
+~~~
+{: .language-bash}
+
+
+> ## Exercise
+>
+> The samples we just performed variant calling on are part of the long-term evolution experiment introduced at the 
+> beginning of our variant calling workflow. From the metadata table, we know that SRR2589044 was from generation 5000,
+> SRR2584863 was from generation 15000, and SRR2584866 was from generation 50000. How did the number of mutations per sample change
+> over time? Examine the metadata table. What is one reason the number of mutations may have changed the way they did?
+> 
+>> ## Solution
+>> 
+>> ~~~~~
+>> $ for infile in results/vcf/*_final__variants.vcf
+>> > do
+>> >     echo ${infile}
+>> >     grep -v "#" ${infile} | wc -l
+>> > done
+>> ~~~
+>> {: .language-bash}
+>> 
+>> For SRR2589044 from generation 5000 there were 10 mutations, for SRR2584863 from generation 15000 there were 25 mutations, 
+>> and SRR2584866 from generation 766 mutations. In the last generation, a hypermutable phenotype had evolved, causing this
+>> strain to have more mutations. 
+> {: .solution}
+{: .challenge}
+
+
+
+

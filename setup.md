@@ -21,7 +21,6 @@ sudo apt-get install curl
 {: .language-bash}
 
 
-
 ## fastqc
 
 For an Ubuntu Linux system, you can install fastqc using the `apt` system on the bash command line because fastq is part of the standard package archive. If you need to install another way or find the original materials, the are  [https://www.bioinformatics.babraham.ac.uk/projects/fastqc/](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). 
@@ -81,6 +80,13 @@ tar -vxjf samtools-1.9.tar.bz2
 cd samtools-1.9
 make
 sudo make install
+~~~
+{: .language-bash}
+
+## bcftools
+
+~~~
+sudo apt-get install bcftools
 ~~~
 {: .language-bash}
 
