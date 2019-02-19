@@ -6,7 +6,9 @@ root: .
 
 This work is copyright © National University of Singapore.
 
-This work is derived from [carpentries/styles][styles] , which is copyright © Software  Carpentry and is licenced from [The Carpentries][the-carpentries] under [CC-BY-4.0][cc-by-human]
+The template for this work is derived from [carpentries/styles][styles] , which is copyright © Software  Carpentry and is licenced from [The Carpentries][the-carpentries] under [CC-BY-4.0][cc-by-human]
+
+The content is *heavily* derived from Data Carpentry's [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/), and licensed under the [CC-BY-4.0][cc-by-human] license.
 
 This work is made available under the [Creative Commons Attribution
 license][cc-by-human]. 

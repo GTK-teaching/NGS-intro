@@ -14,20 +14,21 @@ objectives:
 
 
 
-## The Data
+## The experiment
 
 The data we are going to use is part of a long-term evolution experiment led by [Richard
 Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment).
  
-The experiment was designed to assess adaptation in *E. coli*. A population was propagated for more
-than 40,000 generations in a glucose-limited minimal medium (in most conditions glucose is the best
-carbon source for *E. coli*, providing faster growth than other sugars). This medium was
-supplemented with citrate which *E. coli* cannot metabolize in the aerobic conditions of the
-experiment. Sequencing of the populations at regular time points reveals that spontaneous
-citrate-using variant (*Cit+*) appeared between 31,000 and 31,500 generations causing an increase
-in population size and diversity. In addition, this experiment showed hypermutability in certain
-regions. Hypermutability is important and can help accelerate adaptation to novel environments, but
-also can be selected against in well-adapted populations.
+The experiment was designed to assess adaptation in *E. coli* . Twelve populations of *E. coli*
+strain [REL606][REL606] were propagated for more than 40,000 generations in a glucose-limited
+minimal medium (in most conditions glucose is the best carbon source for *E. coli*, providing
+faster growth than other sugars). This medium was supplemented with citrate, which *E. coli* cannot
+metabolize in the aerobic conditions of the experiment. Sequencing of the populations at regular
+time points revealed that spontaneous citrate-using variant (*Cit+*) appeared between 31,000 and
+31,500 generations of the *Ara-3* population. in the causing an increase in population size and
+diversity. In addition, this experiment showed hypermutability in some populations. Hypermutability
+is important and can help accelerate adaptation to novel environments, but also can be selected
+against in well-adapted populations.
  
 To see a timeline of the experiment to date, check out this
 [figure](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment#/media/File:LTEE_Timeline_as_of_May_28,_2016.png),
@@ -35,7 +36,7 @@ and this paper [Blount et al. 2008: Historical contingency and the evolution of 
 an experimental population of *Escherichia coli*](http://www.pnas.org/content/105/23/7899).
  
  
-## View the Metadata
+## View the metadata
 
 We will be working with three sample events from the *Ara-3* strain of this experiment, one from
 5,000 generations, one from 15,000 generations, and one from 50,000 generations. The population
@@ -48,7 +49,6 @@ Github](https://github.com/data-lessons/wrangling-genomics/blob/gh-pages/files/E
 If you would like to know details of how the file was created, you can look at [some notes and
 sources
 here](https://github.com/data-lessons/wrangling-genomics/blob/gh-pages/files/Ecoli_metadata_composite_README.md).
-
 
 
 This metadata describes information on the *Ara-3* clones and the columns represent:
@@ -75,8 +75,8 @@ This metadata describes information on the *Ara-3* clones and the columns repres
 >
 > * How many different generations exist in the data?
 > * How many rows and how many columns are in this data?
-> * How many citrate+ mutants have been recorded in **Ara-3**?
-> * How many hypermutable mutants have been recorded in **Ara-3**?
+> * How many citrate+ mutants have been recorded in *Ara-3*?
+> * How many hypermutable mutants have been recorded in *Ara-3*?
 > 
 > > ## Solution
 > >
@@ -209,6 +209,26 @@ This metadata describes information on the *Ara-3* clones and the columns repres
 > >   48    6 
 > > ~~~
 > > {: .output}
+> > 
+> > 
+> > 
+> > ~~~
+> >                                         # are hypermutators only in cit+ mutants?
+> > table(metadata$mutator,metadata$cit)
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> >       
+> >        minus plus unknown
+> >   None    11    5      32
+> >   plus     1    5       0
+> > ~~~
+> > {: .output}
 >{: .solution}
 >
 {: .challenge}
+
+[REL606]: http://ecoliwiki.net/colipedia/index.php/Category:Strain:REL606

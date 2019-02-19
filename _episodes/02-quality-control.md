@@ -43,7 +43,7 @@ makes this feasible. Standards ensure that data is stored in a way that is gener
 within the community. The tools that are used to analyze data at different stages of the workflow are therefore 
 built under the assumption that the data will be provided in a specific format.
 
-# Starting with Data
+# Starting with data
 
 Often times, the first step in a bioinformatics workflow is getting the data you want to work with onto a computer where you can work with it. If you have sequenced your own data, the sequencing center will usually provide you with a link that you can use to download your data. Today we will be working with publicly available sequencing data.
 
@@ -77,7 +77,6 @@ ls
 
 
 ~~~
-/home/gtk/work/lsm3241/NGS-intro/_episodes_rmd/data
 SRR2584863_1.fastq
 SRR2584863_2.fastq.gz
 SRR2584866_1.fastq.gz
@@ -87,11 +86,12 @@ SRR2589044_2.fastq.gz
 ~~~
 {: .output}
 
-# Quality Control
+# Quality control
 
 We will now assess the quality of the sequence reads contained in our fastq files. 
 
 ![workflow_qc](../fig/var_calling_workflow_qc.png)
+
 ## Details on the FASTQ format
 
 Although it looks complicated (and it is), we can understand the
@@ -190,7 +190,7 @@ very poor (`#` = a quality score of 2).
 > 
 {: .challenge} 
 
-## Assessing Quality using FastQC
+## Assessing quality using FastQC
 
 In real life, you won't be assessing the quality of your reads by visually inspecting your 
 FASTQ files. Rather, you'll be using a software program to assess read quality and 
@@ -224,7 +224,7 @@ Now let's take a look at a quality plot on the other end of the spectrum.
 
 Here, we see positions within the read in which the boxes span a much wider range. Also, quality scores drop quite low into the "bad" range, particularly on the tail end of the reads. The FastQC tool produces several other diagnostic plots to assess sample quality, in addition to the one plotted above. 
 
-## Running FastQC  
+## Running FastQC
 
 > ## Exercise
 >
@@ -234,24 +234,18 @@ Here, we see positions within the read in which the boxes span a much wider rang
 > file sizes.) 
 >
 > > ## Solution
-> >
-> > 
-> > ~~~
-> > total 1.6G
-> > -rw-r--r-- 1 gtk gtk 545M Feb 14 14:29 SRR2584863_1.fastq
-> > -rw-r--r-- 1 gtk gtk 183M Feb 14 14:30 SRR2584863_2.fastq.gz
-> > -rw-r--r-- 1 gtk gtk 309M Feb 14 14:30 SRR2584866_1.fastq.gz
-> > -rw-r--r-- 1 gtk gtk 296M Feb 14 14:33 SRR2584866_2.fastq.gz
-> > -rw-r--r-- 1 gtk gtk 124M Feb 14 14:28 SRR2589044_1.fastq.gz
-> > -rw-r--r-- 1 gtk gtk 128M Feb 14 14:28 SRR2589044_2.fastq.gz
-> > ~~~
-> > {: .output}
-> >
 > > 
 > > ~~~
 > > ls -l -h
 > > ~~~
 > > {: .language-bash}
+> >
+> > 
+> > ~~~
+> > ls: cannot access '*fastqc*': No such file or directory
+> > ~~~
+> > {: .output}
+> >
 > > There are six FASTQ files ranging from 124M (124MB) to 545M.
 > {: .solution}
 {: .challenge}
@@ -260,9 +254,18 @@ FastQC can accept multiple file names as input, and on both zipped and unzipped 
 use the \*.fastq* wildcard to run FastQC on all of the FASTQ files in this directory. Better yet,
 put your results in a different directory.
 
+> ## The importance of project file organisation
+>
+> In this lesson, we are keeping separate directory structures for different types of files and
+> different stages of our analysis. It helps to think of this whole process as a single *project*;
+> one project may generate hundreds of files. You don't have to put those files in separate
+> directories, but doing so will help you enormously later on.
+{: .callout}
+
+
 ~~~
-cd ..
-fastqc data/* -o results
+mkdir -p results/fastqc
+fastqc data/*.fastq* -o results/fastqc
 ~~~
 {: .language-bash}
 
@@ -297,36 +300,28 @@ $
 ~~~
 {: .output}
 
-The FastQC program has created several new files within our `results` directory
+The FastQC program has created several new files within our `results/fastqc` directory
 
 
 ~~~
-ls results
+ls results/fastqc
 ~~~
 {: .language-bash}
 
 
-
-
 ~~~
-SRR2584863_1_fastqc
-SRR2584863_1_fastqc.html
-SRR2584863_1_fastqc.zip
-SRR2584863_2_fastqc
-SRR2584863_2_fastqc.html
-SRR2584863_2_fastqc.zip
-SRR2584866_1_fastqc
-SRR2584866_1_fastqc.html
-SRR2584866_1_fastqc.zip
-SRR2584866_2_fastqc
-SRR2584866_2_fastqc.html
-SRR2584866_2_fastqc.zip
-SRR2589044_1_fastqc
-SRR2589044_1_fastqc.html
-SRR2589044_1_fastqc.zip
-SRR2589044_2_fastqc
-SRR2589044_2_fastqc.html
-SRR2589044_2_fastqc.zip
+results/fastqc/SRR2584863_1_fastqc.html
+results/fastqc/SRR2584863_1_fastqc.zip
+results/fastqc/SRR2584863_2_fastqc.html
+results/fastqc/SRR2584863_2_fastqc.zip
+results/fastqc/SRR2584866_1_fastqc.html
+results/fastqc/SRR2584866_1_fastqc.zip
+results/fastqc/SRR2584866_2_fastqc.html
+results/fastqc/SRR2584866_2_fastqc.zip
+results/fastqc/SRR2589044_1_fastqc.html
+results/fastqc/SRR2589044_1_fastqc.zip
+results/fastqc/SRR2589044_2_fastqc.html
+results/fastqc/SRR2589044_2_fastqc.zip
 ~~~
 {: .output}
 
@@ -342,12 +337,12 @@ displaying the summary report for each of our samples.
 If we were working on our local computers, we'd be able to display each of these 
 HTML files as a webpage: 
  
+
 ~~~
-cd results
+cd results/fastqc
 open *.html
 ~~~
 {: .language-bash}
-
 Your computer will open each of the HTML files in your default web
 browser. Depending on your settings, this might be as six separate
 tabs in a single window or six separate browser windows.
@@ -409,21 +404,14 @@ Adapter Content
 
 Now that we've looked at our HTML reports to get a feel for the data,
 let's look more closely at the other output files. Make sure you're in
-our results subdirectory.   
+our results subdirectory.
+
+
 
 ~~~
-cd results
-ls 
+cd results/fastqc
 ~~~
 {: .language-bash}
-
-~~~
-SRR2584863_1_fastqc.html  SRR2584866_1_fastqc.html  SRR2589044_1_fastqc.html
-SRR2584863_1_fastqc.zip   SRR2584866_1_fastqc.zip   SRR2589044_1_fastqc.zip
-SRR2584863_2_fastqc.html  SRR2584866_2_fastqc.html  SRR2589044_2_fastqc.html
-SRR2584863_2_fastqc.zip   SRR2584866_2_fastqc.zip   SRR2589044_2_fastqc.zip
-~~~
-{: .output}
 
 Our `.zip` files are compressed files. They each contain multiple 
 different types of output files for a single input FASTQ file. To
@@ -431,10 +419,13 @@ view the contents of a `.zip` file, we can use the program `unzip`
 to decompress these files. Let's try doing them all at once using a
 wildcard.
 
+
 ~~~
-unzip *.zip 
+unzip *.zip
 ~~~
 {: .language-bash}
+
+
 
 ~~~
 Archive:  SRR2584863_1_fastqc.zip
@@ -446,23 +437,29 @@ caution: filename not matched:  SRR2589044_2_fastqc.zip
 ~~~
 {: .output}
 
+
 This didn't work. We unzipped the first file and then got a warning
 message for each of the other `.zip` files. This is because `unzip` 
 expects to get only one zip file as input. We could go through and 
 unzip each file one at a time, but this is very time consuming and 
 error-prone. Someday you may have 500 files to unzip!
 
-A more efficient way is to use a `for` loop like we learned in the Shell Genomics lesson to iterate through all of
+A more efficient way is to use a `for` loop like we learned in the bash lesson to iterate through all of
 our `.zip` files. Let's see what that looks like and then we'll 
 discuss what we're doing with each line of our loop.
 
+
 ~~~
-for filename in *.zip
-> do
-> unzip $filename
-> done
+for filename in *.zip; do 
+ unzip $filename
+done
 ~~~
 {: .language-bash}
+
+
+
+
+
 
 In this example, the input is six filenames (one filename for each of our `.zip` files). Each time
 the loop iterates, it will assign a file name to the variable `filename` and run the
@@ -508,34 +505,34 @@ are a lot of files here. The one we're going to focus on is the
 
 If you list the files in our directory now you will see: 
 
-~~~
-SRR2584863_1_fastqc       SRR2584866_1_fastqc       SRR2589044_1_fastqc
-SRR2584863_1_fastqc.html  SRR2584866_1_fastqc.html  SRR2589044_1_fastqc.html
-SRR2584863_1_fastqc.zip   SRR2584866_1_fastqc.zip   SRR2589044_1_fastqc.zip
-SRR2584863_2_fastqc       SRR2584866_2_fastqc       SRR2589044_2_fastqc
-SRR2584863_2_fastqc.html  SRR2584866_2_fastqc.html  SRR2589044_2_fastqc.html
-SRR2584863_2_fastqc.zip   SRR2584866_2_fastqc.zip   SRR2589044_2_fastqc.zip
-~~~
-{:. output}
-
-The `.html` files and the uncompressed `.zip` files are still present,
-but now we also have a new directory for each of our samples. We can 
-see for sure that it's a directory if we use the `-F` flag for `ls`. 
 
 ~~~
-ls -F 
-~~~
-{: .language-bash}
-
-~~~
-SRR2584863_1_fastqc/      SRR2584866_1_fastqc/      SRR2589044_1_fastqc/
-SRR2584863_1_fastqc.html  SRR2584866_1_fastqc.html  SRR2589044_1_fastqc.html
-SRR2584863_1_fastqc.zip   SRR2584866_1_fastqc.zip   SRR2589044_1_fastqc.zip
-SRR2584863_2_fastqc/      SRR2584866_2_fastqc/      SRR2589044_2_fastqc/
-SRR2584863_2_fastqc.html  SRR2584866_2_fastqc.html  SRR2589044_2_fastqc.html
-SRR2584863_2_fastqc.zip   SRR2584866_2_fastqc.zip   SRR2589044_2_fastqc.zip
+SRR2584863_1_fastqc
+SRR2584863_1_fastqc.html
+SRR2584863_1_fastqc.zip
+SRR2584863_2_fastqc
+SRR2584863_2_fastqc.html
+SRR2584863_2_fastqc.zip
+SRR2584866_1_fastqc
+SRR2584866_1_fastqc.html
+SRR2584866_1_fastqc.zip
+SRR2584866_2_fastqc
+SRR2584866_2_fastqc.html
+SRR2584866_2_fastqc.zip
+SRR2589044_1_fastqc
+SRR2589044_1_fastqc.html
+SRR2589044_1_fastqc.zip
+SRR2589044_2_fastqc
+SRR2589044_2_fastqc.html
+SRR2589044_2_fastqc.zip
 ~~~
 {: .output}
+The `.html` files and the uncompressed `.zip` files are still present,
+but now we also have a new directory for each of our samples. We can 
+see for sure that it's a directory if we use the `-F` flag for `ls`.
+(You may already have this flag set by default, depending on how your bash
+shell is configured.)
+
 
 Let's see what files are present within one of these output directories.
 
@@ -555,7 +552,6 @@ Images/
 summary.txt
 ~~~
 {: .output}
-
 
 Use `less` to preview the `summary.txt` file for this sample. 
 
@@ -582,18 +578,23 @@ WARN    Adapter Content SRR2584863_1.fastq
 The summary file gives us a list of tests that FastQC ran, and tells
 us whether this sample passed, failed, or is borderline (`WARN`). Remember to quit from `less` you enter `q`.
 
-## Documenting Our Work
+## Documenting your work
 
 We can make a record of the results we obtained for all our samples
 by concatenating all of our `summary.txt` files into a single file 
 using the `cat` command. We'll call this `fastq_summaries.txt` and move it to a new directory called `docs`:
 
+
 ~~~
-cd ..
-mkdir docs
-cat results/*/summary.txt > docs/fastq_summaries.txt
+# Let's go back to home base
+cd ../.. 
+mkdir -p docs
+cat results/fastqc/*/summary.txt > docs/fastq_summaries.txt
 ~~~
 {: .language-bash}
+
+
+
 
 > ## Exercise
 >
@@ -634,7 +635,7 @@ cat results/*/summary.txt > docs/fastq_summaries.txt
 > {: .solution}
 {: .challenge}
 
-> ## Quality Encodings Vary
+> ## Quality encodings vary
 >
 > Although we've used a particular quality encoding system to demonstrate interpretation of 
 > read quality, different sequencing machines use different encoding systems. This means that, 
@@ -646,5 +647,7 @@ cat results/*/summary.txt > docs/fastq_summaries.txt
 > used to generate your data, so that you can tell your quality control program which encoding
 > to use. If you choose the wrong encoding, you run the risk of throwing away good reads or 
 > (even worse) not throwing away bad reads!
-{: .callout}
+{: .warning}
+
+
 
