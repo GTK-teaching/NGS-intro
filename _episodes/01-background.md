@@ -34,9 +34,15 @@ To see a timeline of the experiment to date, check out this
 [figure](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment#/media/File:LTEE_Timeline_as_of_May_28,_2016.png),
 and this paper [Blount et al. 2008: Historical contingency and the evolution of a key innovation in
 an experimental population of *Escherichia coli*](http://www.pnas.org/content/105/23/7899).
+
+## The data
+
+The sequencing data is from Illumina sequencers, which use *flow cells*, which are divited into *lanes*, which are divided into *tiles*. The FASTQ files we will use later has information on the lanes, tiles, and positions. It's useful to be familiar with the general organisation of the data, as shown below (the exact number and layout of tiles per lane varies for different flow cells):
+
+![Hiseq Flow cell layout](../fig/hiseq-flow-cell.png)
  
  
-## View the metadata
+## The metadata
 
 We will be working with three sample events from the *Ara-3* strain of this experiment, one from
 5,000 generations, one from 15,000 generations, and one from 50,000 generations. The population
