@@ -34,12 +34,11 @@ The alignment process consists of two steps:
 
 First we download the reference genome for *E. coli* REL606. Although we could copy or move the file with `cp` or `mv`, most genomics workflows begin with a download step, so we will practice that here. 
 
-~~~
+```{bash}
 mkdir -p data/genome
 curl -L -o data/genome/ecoli_rel606.fasta.gz ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/017/985/GCA_000017985.1_ASM1798v1/GCA_000017985.1_ASM1798v1_genomic.fna.gz
-gunzip data/genome/ecoli_rel606.fasta.gz
-~~~
-{: .language-bash}
+gunzip -f data/genome/ecoli_rel606.fasta.gz
+```
 
 > ## Exercise 
 > 
@@ -48,38 +47,25 @@ gunzip data/genome/ecoli_rel606.fasta.gz
 > 
 >> ## Solution
 >> 
->> ~~~
->> $ head data/genome/ecoli_rel606.fasta
->> ~~~
->> {: .language-bash}
+>> ```{bash}
+>> head -1 data/genome/ecoli_rel606.fasta
+>> ```
 >> 
 >> The name of the sequence follows the `>` character. The name is `CP000819.1 Escherichia coli B str. REL606, complete genome`.
 >> Keep this chromosome name (`CP000819.1`) in mind, as we will use it later in the lesson. 
 > {: .solution}
 {: .challenge}
 
-We will also download a set of trimmed FASTQ files to work with. These are small subsets of our real trimmed data, 
-and will enable us to run our variant calling workflow quite quickly. 
-
-~~~
-# This is a place holder so the workflow will work. This will be updated with figshare links later
-$ curl -L -o sub.tar.gz https://osf.io/gbt7p/download
-$ tar xvf sub.tar.gz
-$ mv sub/ ~/dc_workshop/data/trimmed_fastq_small
-~~~
-{: .language-bash}
-
 You will also need to create directories for the results that will be generated as part of this workflow. We can do this in a single
 line of code because `mkdir` can accept multiple new directory
 names as input.
 
-~~~
+```{bash, results='hide'}
 mkdir -p results/sam results/bam results/bcf results/vcf
-~~~
-{: .language-bash}
-
+```
 
 ### Index the reference genome
+
 Our first step is to index the reference genome for use by BWA. Indexing allows the aligner to quickly find potential alignment sites for query sequences in a genome, which saves time during alignment. Indexing the reference only has to be run once. The only reason you would want to create a new index is if you are working with a different reference genome or you are using a different tool for alignment.
 
 The index is built using `bowtie2-build`, whose options you can see by running it alone
@@ -90,16 +76,27 @@ bowtie2-build
 
 We need to supply the fasta files of the reference (in this case just one file) and a name for the index. Since this is E coli REL606, we might call it Ec606 for short.
 
-~~~
-$ bowtie2-build data/genome/ecoli_rel606.fasta data/genome/Ec606
-~~~
-{: .language-bash}
+```{bash bowtie2-build, results='hide'}
+bowtie2-build data/genome/ecoli_rel606.fasta data/genome/Ec606
+```
 
 While the index is created, you will see a log of output during the build process.
 
 ### Align reads to reference genome
 
 The alignment process consists of choosing an appropriate reference genome to map our reads against and then deciding on an aligner. We will use the bowtie2 algorithm asking for four processors (-p 4) and speed over sensitivity.
+
+Let's think about the organisation of this process.
+
+- We need have several trimmed fastq files, all in the `results/trimmed/` directory. We have paired
+  end data, so two files for each sample. We need to recognise the sample name from the file.
+  
+- We want to use a `for` loop to iterate through the files.
+
+- We want to put the results in `results/sam/` 
+
+As an aside, we need to set an *environment variable* (`BOWTIE2_INDEXES`) so we can find the bowtie2 index files we just created with `bowtie2-build`. 
+
 
 ```{bash, eval=FALSE}
 export BOWTIE2_INDEXES=$(pwd)/data/genome

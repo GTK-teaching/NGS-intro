@@ -20,20 +20,23 @@ keypoints:
 
 # Cleaning Reads
 
-In the previous episode, we took a high-level look at the quality
-of each of our samples using FastQC. We vizualized per-base quality
-graphs showing the distribution of read quality at each base across
-all reads in a sample and extracted information about which samples
-fail which quality checks. Some of our samples failed quite a few quality metrics used by FastQC. This doesn't mean,
-though, that our samples should be thrown out! It's very common to have some quality metrics fail, and this may or may not be a problem for your downstream application. For our variant callig workflow, we will be removing some of the low quality  sequences to reduce our false positive rate due to sequencing error.
+In the previous episode, we took a high-level look at the quality of each of our samples using
+FastQC. We vizualized per-base quality graphs showing the distribution of read quality at each base
+across all reads in a sample and extracted information about which samples fail which quality
+checks. Some of our samples failed quite a few quality metrics used by FastQC. This doesn't mean,
+though, that our samples should be thrown out! It's very common to have some quality metrics fail,
+and this may or may not be a problem for your downstream application. For our variant callig
+workflow, we will be removing some of the low quality sequences to reduce our false positive rate
+due to sequencing error.
 
-We will use a program called
-[Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) to
+We will use a program called [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) to
 filter poor quality reads and trim poor quality bases from our samples.
 
 ## Trimmomatic Options
 
-Trimmomatic has a variety of options to trim your reads. If we run the command, we can see some of our options. If you installed it via `apt`, there are two command line versions, one for single end and on for paired end sequencing. Let's look at the one for paired end sequencing:
+Trimmomatic has a variety of options to trim your reads. If we run the command, we can see some of
+our options. If you installed it via `apt`, there are two command line versions, one for single end
+and on for paired end sequencing. Let's look at the one for paired end sequencing:
 
 
 ~~~
@@ -50,6 +53,17 @@ Usage: TrimmomaticPE [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLog
 {: .output}
 
 There is a similar version for single end reads, `TrimmmomaticSE`.
+
+> ## Reads get dropped when trimming
+>
+> When trimming reads from a fastq file, some reads are naturally dropped. For example, an entire
+> read may be trimmed so that there is nothing left, or the read remaining after trimming may be shorter than the
+> minimum length requirement for keeping it. In the case of single-end (SE) sequencing, the
+> consequences are simple: reads are simply dropped from the results file. In the case of PE
+> sequencing, if one read of a mate pair is dropped, then the other read is *orphaned*. Trimmomatic
+> produces separate files for the surviving pairs and for the surviving orphans (four files in
+> total).
+{: .callout}
 
 Next, we specify what flag we would like to run. For example, you can specify `threads` to indicate the number
 processors on your computer that you want Trimmomatic to use. These flags are not necessary, but they can give
@@ -88,7 +102,7 @@ and options, see [the Trimmomatic manual](http://www.usadellab.org/cms/uploads/s
 However, a complete command for Trimmomatic will look something like the command below. This command is an example and will not work as we do not have the files it refers to:
 
 ~~~
-$ TrimmomaticPE -threads 4 SRR_1056_1.fastq SRR_1056_2.fastq  \
+TrimmomaticPE -threads 4 SRR_1056_1.fastq SRR_1056_2.fastq  \
               SRR_1056_1.trimmed.fastq SRR_1056_1un.trimmed.fastq \
               SRR_1056_2.trimmed.fastq SRR_1056_2un.trimmed.fastq \
               ILLUMINACLIP:SRR_adapters.fa SLIDINGWINDOW:4:20
@@ -177,6 +191,7 @@ cp /usr/share/trimmomatic/NexteraPE-PE.fa .
 ~~~
 {: .language-bash}
 
+
 We will also use a sliding window of size 4 that will remove bases if their
 phred score is below 20 (like in our example above). We will also
 discard any reads that do not have at least 20 bases remaining after
@@ -184,17 +199,17 @@ this trimming step. This command will take a few minutes to run.
 
 
 ~~~
-$ trimmomatic PE SRR2589044_1.fastq.gz SRR2589044_2.fastq.gz \
-                SRR2589044_1.trim.fastq.gz SRR2589044_1un.trim.fastq.gz \
-                SRR2589044_2.trim.fastq.gz SRR2589044_2un.trim.fastq.gz \
-                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15 
+TrimmomaticPE SRR2589044_1.fastq.gz SRR2589044_2.fastq.gz \
+              SRR2589044_1.trim.fastq.gz SRR2589044_1un.trim.fastq.gz \
+              SRR2589044_2.trim.fastq.gz SRR2589044_2un.trim.fastq.gz \
+              SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:/usr/share/trimmomatic/NexteraPE-PE.fa:2:40:15 
 ~~~
 {: .language-bash}
 
+
 ~~~
 TrimmomaticPE: Started with arguments:
- SRR2589044_1.fastq.gz SRR2589044_2.fastq.gz SRR2589044_1.trim.fastq.gz SRR2589044_1un.trim.fastq.gz SRR2589044_2.trim.fastq.gz SRR2589044_2un.trim.fastq.gz SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
-Multiple cores found: Using 2 threads
+ SRR2589044_1.fastq.gz SRR2589044_2.fastq.gz SRR2589044_1.trim.fastq.gz SRR2589044_1un.trim.fastq.gz SRR2589044_2.trim.fastq.gz SRR2589044_2un.trim.fastq.gz SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:/usr/share/trimmomatic/NexteraPE-PE.fa:2:40:15
 Using PrefixPair: 'AGATGTGTATAAGAGACAG' and 'AGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'GTCTCGTGGGCTCGGAGATGTGTATAAGAGACAG'
 Using Long Clipping Sequence: 'TCGTCGGCAGCGTCAGATGTGTATAAGAGACAG'
@@ -218,44 +233,33 @@ TrimmomaticPE: Completed successfully
 >> ## Solution
 >> 1) 0.23%
 >> 2) 79.96%
+> >
 > {: .solution}
+>
 {: .challenge}
 
 You may have noticed that Trimmomatic automatically detected the
 quality encoding of our sample. It is always a good idea to
 double-check this or to enter the quality encoding manually.
 
-We can confirm that we have our output file:
+We can confirm that we have our output file, and that the output files are smaller than the input
+
 
 ~~~
-$ ls SRR2589044*
+ls -l -h SRR2589044*
 ~~~
 {: .language-bash}
 
+
 ~~~
-SRR2589044_1.fastq.gz       SRR2589044_1un.trim.fastq.gz  SRR2589044_2.trim.fastq.gz
-SRR2589044_1.trim.fastq.gz  SRR2589044_2.fastq.gz         SRR2589044_2un.trim.fastq.gz
+-rw-r--r-- 1 gtk gtk 124M Feb 14 14:28 SRR2589044_1.fastq.gz
+-rw-r--r-- 1 gtk gtk  94M Feb 19 16:22 SRR2589044_1.trim.fastq.gz
+-rw-r--r-- 1 gtk gtk  18M Feb 19 16:22 SRR2589044_1un.trim.fastq.gz
+-rw-r--r-- 1 gtk gtk 128M Feb 14 14:28 SRR2589044_2.fastq.gz
+-rw-r--r-- 1 gtk gtk  91M Feb 19 16:22 SRR2589044_2.trim.fastq.gz
+-rw-r--r-- 1 gtk gtk 271K Feb 19 16:22 SRR2589044_2un.trim.fastq.gz
 ~~~
 {: .output}
-
-The output file is also a FASTQ file. It should be smaller than our
-input file because we've removed reads. We can confirm this:
-
-~~~
-$ ls SRR2589044* -l -h
-~~~
-{: .language-bash}
-
-~~~
--rw-rw-r-- 1 dcuser dcuser 124M Jul  6 20:22 SRR2589044_1.fastq.gz
--rw-rw-r-- 1 dcuser dcuser  94M Jul  6 22:33 SRR2589044_1.trim.fastq.gz
--rw-rw-r-- 1 dcuser dcuser  18M Jul  6 22:33 SRR2589044_1un.trim.fastq.gz
--rw-rw-r-- 1 dcuser dcuser 128M Jul  6 20:24 SRR2589044_2.fastq.gz
--rw-rw-r-- 1 dcuser dcuser  91M Jul  6 22:33 SRR2589044_2.trim.fastq.gz
--rw-rw-r-- 1 dcuser dcuser 271K Jul  6 22:33 SRR2589044_2un.trim.fastq.gz
-~~~
-{: .output}
-
 
 We've just successfully run Trimmomatic on one of our FASTQ files!
 However, there is some bad news. Trimmomatic can only operate on
@@ -263,17 +267,14 @@ one sample at a time and we have more than one sample. The good news
 is that we can use a `for` loop to iterate through our sample files
 quickly! 
 
-We unzipped one of our files before to work with it, let's compress it again before we run our for loop.
-
-~~~
-gzip SRR2584863_1.fastq 
-~~~
-{: .language-bash}
-
-
+As a separate matter, we've just added four more files to our data directory, but at least in my
+mind the output of Trimmomatic should be considered "results", not data. So the best way to
+organise our results is to make separate directories for the trimmed pairs and the orphans.
 
 
 ~~~
+# get rid of the results in our data directory
+rm *trim*
 # go up one from the data directory
 cd ..
 # make a separate directory for the trimmed pairs and orphaned results
@@ -282,7 +283,7 @@ mkdir -p results/orphaned
 
 # let's set this up to place the results where we want
 
-for file in ls data/*_1.fastq.gz;
+for file in  data/*_1.fastq.gz;
 do
     SRR=$(basename $file _1.fastq.gz)
     echo working on $SRR
@@ -293,6 +294,7 @@ do
 done
 ~~~
 {: .language-bash}
+
 
 
 Go ahead and run the for loop. It should take a few minutes for Trimmomatic to run for each of our
@@ -312,14 +314,12 @@ ls results/orphaned
 
 
 ~~~
-fastqc
 SRR2584863_1.trim.fastq.gz
 SRR2584863_2.trim.fastq.gz
 SRR2584866_1.trim.fastq.gz
 SRR2584866_2.trim.fastq.gz
 SRR2589044_1.trim.fastq.gz
 SRR2589044_2.trim.fastq.gz
-fastqc
 SRR2584863_1.untrim.fastq.gz
 SRR2584863_2.untrim.fastq.gz
 SRR2584866_1.untrim.fastq.gz
@@ -351,8 +351,6 @@ control process!
 >> {: .language-bash}
 >>
 >>
->> Remember to replace everything between the `@` and `:` in your scp
->> command with your AWS instance number.
 >>
 >> After trimming and filtering, our overall quality is much higher, 
 >> we have a distribution of sequence lengths, and more samples pass 
