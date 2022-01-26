@@ -249,13 +249,13 @@ echo working in $(pwd)
 
 genome=data/genome/ecoli_rel606.fasta
 
-export BOWTIE2_INDEXES=$(BASE_DIR}/data/genome
+export BOWTIE2_INDEXES=${BASE_DIR}/data/genome
 
 echo "building the index of Ec606"
 
-echo bowtie2-build $genome data/genome/Ec606
+bowtie2-build $genome data/genome/Ec606
 
-mkdir -p sam bam bcf vcf
+mkdir -p results/sam results/bam results/bcf results/vcf
 
 for fq1 in results/trimmed/*_1.trim.fastq.gz
      do
@@ -270,9 +270,9 @@ for fq1 in results/trimmed/*_1.trim.fastq.gz
          variants=results/vcf/${SRR}_variants.vcf
          final_variants=results/vcf/${SRR}_final_variants.vcf
          bowtie2 -x Ec606 --very-fast -p 4 -1 ${fq1} -2 ${fq2} -S ${sam}
-          samtools view -S -b ${sam} > $bam
-          samtools sort -o ${sorted_bam} $bam
-          samtools index ${sorted_bam}
+         samtools view -S -b ${sam} > $bam
+         samtools sort -o ${sorted_bam} $bam
+         samtools index ${sorted_bam}
           bcftools mpileup -O b -o $raw_bcf -f $genome $sorted_bam
           bcftools call --ploidy 1 -m -v -o $variants $raw_bcf 
           vcfutils.pl varFilter $variants > $final_variants
