@@ -2,12 +2,13 @@
 title: Setup
 ---
 
-# File system
+# IMPORTANT: File system
 
 Create a directory for this lesson somewhere on your computer. Inside that directory, create three directories: `data`, `src`, and `results`.  These will be the starting organisation of a project for this lesson.
 
+# Software  installation
 
-# Software 
+You can run the software installation part (described in detail below) by running [./data/wsl-install.sh](./data/wsl-install.sh). MacOSX users may have to run brew instead of sudo apt
 
 The following software (instructions for Unbuntu linux systems) will be used for this lesson and future lessons.
 
@@ -67,21 +68,6 @@ sudo apt-get install samtools
 ~~~
 {: .language-bash}
 
-to install version Samtools version 1.7. To install the more recent samtools requires more work, and on my machine this worked
-
-~~~
-sudo apt-get install libbz2-dev
-sudo apt-get install zlib1g-dev
-sudo apt-get install libncurses5-dev 
-sudo apt-get install libncursesw5-dev
-sudo apt-get install liblzma-dev
-wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
-tar -vxjf samtools-1.9.tar.bz2
-cd samtools-1.9
-make
-sudo make install
-~~~
-{: .language-bash}
 
 ## bcftools
 
@@ -101,7 +87,9 @@ sudo apt-get install bedtools
 
 # Data
 
-Let's go get the data we'll need using wget and curl
+Let's go get the data we'll need using wget and curl.  BE SURE TO HAVE CREATED THE CORRECT DIRECTORIES FIRST
+
+The steps below can be run by running [./data/get-data.sh](./data/get-data.sh) when in the correct directory.
 
 ## metadata
 
@@ -127,8 +115,5 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz 
 ~~~
 {: .language-bash}
-
-
-
 
 {% include links.md %}
