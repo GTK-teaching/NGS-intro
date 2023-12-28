@@ -26,7 +26,7 @@ FastQC. We vizualized per-base quality graphs showing the distribution of read q
 across all reads in a sample and extracted information about which samples fail which quality
 checks. Some of our samples failed quite a few quality metrics used by FastQC. This doesn't mean,
 though, that our samples should be thrown out! It's very common to have some quality metrics fail,
-and this may or may not be a problem for your downstream application. For our variant callig
+and this may or may not be a problem for your downstream application. For our variant calling
 workflow, we will be removing some of the low quality sequences to reduce our false positive rate
 due to sequencing error.
 
@@ -43,7 +43,7 @@ and on for paired end sequencing. Let's look at the one for paired end sequencin
 TrimmomaticPE
 ```
 
-There is a similar version for single end reads, `TrimmmomaticSE`.
+There is a similar version for single end reads, `TrimmomaticSE`.
 
 > ## Reads get dropped when trimming
 >

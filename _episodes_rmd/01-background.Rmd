@@ -87,7 +87,7 @@ This metadata describes information on the *Ara-3* clones and the columns repres
 > 
 > > ## Solution
 > >
-> > We will address the metadata questions in R
+> > While you can solve this in any We will address the metadata questions in R
 > > 
 > > ```{r metadata}
 > > library(tidyverse)

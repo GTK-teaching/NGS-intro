@@ -2,11 +2,12 @@
 title: Setup
 ---
 
-# IMPORTANT: File system
+
+# 1. Organise your file system
 
 Create a directory for this lesson somewhere on your computer. Inside that directory, create three directories: `data`, `src`, and `results`.  These will be the starting organisation of a project for this lesson.
 
-# Software  installation
+# 2. Install the software you will need
 
 You can run the software installation part (described in detail below) by running [./data/wsl-install.sh](./data/wsl-install.sh). MacOSX users may have to run brew instead of sudo apt
 
@@ -27,7 +28,7 @@ sudo apt install wget curl
 For an Ubuntu Linux system, you can install fastqc using the `apt` system on the bash command line because fastq is part of the standard package archive. If you need to install another way or find the original materials, the are  [https://www.bioinformatics.babraham.ac.uk/projects/fastqc/](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). 
 
 ~~~
-sudo apt-get install fastqc
+sudo apt install fastqc
 ~~~
 {: .language-bash}
 
@@ -37,7 +38,7 @@ sudo apt-get install fastqc
 [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) is a read trimming tool that work on the command line It can be installed with apt.
 
 ~~~
-sudo apt-get install trimmomatic
+sudo apt install trimmomatic
 ~~~
 {: .language-bash}
 
@@ -46,7 +47,7 @@ sudo apt-get install trimmomatic
 Fastq actually uses a library called picard, which has an associated set of command line [tools](https://broadinstitute.github.io/picard/). We may use them later in the semester. To install, 
 
 ~~~
-sudo apt-get install picard-tools
+sudo apt install picard-tools
 ~~~
 {: .language-bash}
 
@@ -55,7 +56,7 @@ sudo apt-get install picard-tools
 Bowtie and bowtie2 are programs for rapid alignment of next-generation sequencing data to a reference. You can install [bowtie](http://bowtie-bio.sourceforge.net/index.shtml) and [bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) on Ubuntu using apt:
 
 ~~~
-sudo apt-get install bowtie bowtie2
+sudo apt install bowtie bowtie2
 ~~~
 {: .language-bash}
 
@@ -64,7 +65,7 @@ sudo apt-get install bowtie bowtie2
 Samtools is also available on the ubuntu sytem in apt, so you can use
 
 ~~~
-sudo apt-get install samtools
+sudo apt install samtools
 ~~~
 {: .language-bash}
 
@@ -72,7 +73,7 @@ sudo apt-get install samtools
 ## bcftools
 
 ~~~
-sudo apt-get install bcftools
+sudo apt install bcftools
 ~~~
 {: .language-bash}
 
@@ -81,11 +82,11 @@ sudo apt-get install bcftools
 The amazing [bedtools](https://bedtools.readthedocs.io/) is avaiable on apt:
 
 ~~~
-sudo apt-get install bedtools
+sudo apt install bedtools
 ~~~
 {: .language-bash}
 
-# Data
+# 3. Download the data you will need
 
 Let's go get the data we'll need using wget and curl.  BE SURE TO HAVE CREATED THE CORRECT DIRECTORIES FIRST
 

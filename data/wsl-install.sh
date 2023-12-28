@@ -7,6 +7,7 @@
 ## make sure we are up to date
 
 sudo apt update
+sudo apt upgrade -y
 
 ## wget and/or curl
 
